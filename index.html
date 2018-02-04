@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>AES</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-cloak ng-app="AES-App" ng-controller="AES-Controller">
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">AES</h1>
+        <form>
+            <div class="form-group">
+                <label class="control-label" for="plaintext">Plain Text</label>
+                <textarea class="form-control" rows="5" id="plaintext" ng-model="plaintext"></textarea>
+            </div>
+            <div class="form-group has-feedback" ng-class="GetCSSForFormValidity(IsCurrentKeyValid())">
+                <label class="control-label" for="key">Key</label>
+                <input class="form-control" id="key" type="password" maxlength="32" ng-model="key">
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="IsCurrentKeyValid()"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="!IsCurrentKeyValid()"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="mode">Mode of Operation</label>
+                <select class="form-control" id="mode" ng-model="mode">
+                    <option value="CTR">CTR
+                    <option value="CBC">CBC
+                    <option value="CFB">CFB
+                    <option value="OFB">OFB
+                    <option value="ECB">ECB
+                </select>
+            </div>
+            <div class="form-group" ng-show="DoesCurrentModeRequireCounter()">
+                <label class="control-label" for="counter">Counter</label>
+                <input class="form-control" id="counter" type="number" ng-model="counter">
+            </div>
+            <div class="form-group has-feedback" ng-show="DoesCurrentModeRequireIV()"
+                 ng-class="GetCSSForFormValidity(IsCurrentIVValid())">
+                <label class="control-label" for="iv">Initialization Vector</label>
+                <input class="form-control" id="iv" type="text" maxlength="16" ng-model="iv">
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="IsCurrentIVValid()"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="!IsCurrentIVValid()"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="ciphertext">Cipher Text</label>
+                <textarea class="form-control" rows="5" id="ciphertext" ng-model="ciphertext"></textarea>
+            </div>
+            <button class="btn btn-default" ng-click="Encrypt()" ng-disabled="!IsReady()">Encrypt</button>
+            <button class="btn btn-default" ng-click="Decrypt()" ng-disabled="!IsReady()">Decrypt</button>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<!-- AES-JS -->
+<script src="AES.js"></script>
+<!-- AES -->
+<script src="APP.js"></script>
+</body>
+</html>
